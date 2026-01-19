@@ -13,12 +13,6 @@
 - **主题切换** - 深色/浅色主题一键切换
 - **可视化反馈** - 动态节拍指示器，当前拍高亮显示
 
-## 截图
-
-<p align="center">
-  <img src="docs/screenshot.png" alt="Metronome Screenshot" width="300">
-</p>
-
 ## 平台支持
 
 | 平台 | 状态 | 音频引擎 |
