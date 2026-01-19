@@ -1,126 +1,160 @@
-# 节拍器
+# Metronome 节拍器
 
-一个使用 Flutter 开发的跨平台节拍器应用。
+一个使用 Flutter 开发的跨平台专业节拍器应用，支持原生音频引擎实现精准节拍。
 
 ## 功能特点
 
-- 可调节速度(BPM: 40-240)
-- 支持不同节拍类型(2/4, 3/4, 4/4 等)
-- 可视化节拍指示器
-- 开始/停止控制
-- 音频反馈
-- Material Design 界面设计
-- 支持深色/浅色主题
+- **精准节拍** - 原生音频引擎 (Android/iOS/macOS)，Web Audio API (浏览器)
+- **BPM 调节** - 支持 30-250 BPM，点击、长按、滑块多种调节方式
+- **TAP TEMPO** - 连续点击自动计算节奏速度
+- **多种拍号** - 支持 1-12 拍，涵盖 2/4、3/4、4/4、6/8 等常用拍号
+- **小节循环** - 播放 N 小节后静音 M 小节，适合节奏训练
+- **定时控制** - 延迟开始、播放时长、循环播放
+- **主题切换** - 深色/浅色主题一键切换
+- **可视化反馈** - 动态节拍指示器，当前拍高亮显示
 
-## 使用方法
+## 截图
 
-1. 调节 BPM
-   - 使用滑块或点击 +/- 按钮设置所需速度(每分钟节拍数)
-   - 支持范围: 40-240 BPM
-
-2. 选择节拍类型
-   - 点击节拍选择器切换不同拍号
-   - 支持 2/4, 3/4, 4/4 等常用拍号
-
-3. 控制播放
-   - 点击中央按钮开始/停止节拍器
-   - 播放时会有视觉和声音提示
-
-## 技术实现
-
-- 使用 Flutter 音频插件实现精确的节拍声音
-- Flutter 动画系统实现流畅的视觉效果
-- 状态管理使用 Provider/Riverpod
-- 遵循 Flutter 最佳实践和设计规范
+<p align="center">
+  <img src="docs/screenshot.png" alt="Metronome Screenshot" width="300">
+</p>
 
 ## 平台支持
 
-- Android
-- iOS
-- Web
-- Windows
-- macOS
-- Linux
+| 平台 | 状态 | 音频引擎 |
+|------|------|----------|
+| Android | ✅ | Native AudioTrack |
+| iOS | ✅ | AVAudioEngine |
+| macOS | ✅ | AVAudioEngine |
+| Web | ✅ | Web Audio API |
+| Windows | ✅ | Flutter 默认 |
+| Linux | ✅ | Flutter 默认 |
 
-## 开发环境配置
+## 快速开始
 
-1. 安装 Flutter SDK
-2. 配置开发环境变量
-3. 运行以下命令检查环境:
-   ```bash
-   flutter doctor
-   ```
+### 安装依赖
 
-## 本地运行
-
-1. 克隆仓库:
-   ```bash
-   git clone https://github.com/your-username/metronome.git
-   ```
-
-2. 安装依赖:
-   ```bash
-   flutter pub get
-   ```
-
-3. 运行应用:
-   ```bash
-   flutter run
-   ```
-
-## 构建发布版本
-
-Android:
 ```bash
-flutter build apk
+flutter pub get
 ```
 
-iOS:
+### 运行应用
+
 ```bash
-flutter build ios
+# 自动选择设备
+flutter run
+
+# 指定平台
+flutter run -d chrome      # Web
+flutter run -d macos       # macOS
+flutter run -d windows     # Windows
 ```
 
-Web:
+### 构建发布版本
+
 ```bash
-flutter build web
+# Android APK
+flutter build apk --release
+
+# iOS
+flutter build ios --release
+
+# macOS
+flutter build macos --release
+
+# Web
+flutter build web --release
+
+# Windows
+flutter build windows --release
 ```
 
 ## 项目结构
 
 ```
 lib/
-├── models/          # 数据模型
-├── providers/       # 状态管理
-├── screens/         # 页面UI
-├── widgets/         # 可复用组件
-├── utils/          # 工具类
-└── main.dart       # 入口文件
+├── main.dart              # 入口文件
+├── models/                # 数据模型
+│   └── time_signature.dart
+├── providers/             # 状态管理
+│   ├── metronome_provider.dart
+│   └── theme_provider.dart
+├── screens/               # 页面
+│   ├── metronome_screen.dart
+│   ├── settings_screen.dart
+│   └── splash_screen.dart
+├── services/              # 音频服务
+│   ├── audio_engine.dart        # 条件导出
+│   ├── audio_engine_base.dart   # 抽象接口
+│   ├── native_audio_engine.dart # 原生实现
+│   └── web_audio_engine.dart    # Web 实现
+├── painters/              # 自定义绑定
+│   └── metronome_painter.dart
+└── widgets/               # 可复用组件
+    └── timing_control_panel.dart
+
+macos/Runner/
+├── MetronomeAudioEngine.swift   # macOS 原生音频
+└── AppDelegate.swift            # Platform Channel
+
+ios/Runner/
+├── MetronomeAudioEngine.swift   # iOS 原生音频
+└── AppDelegate.swift
+
+android/app/src/main/kotlin/
+└── MetronomeAudioEngine.kt      # Android 原生音频
 ```
+
+## 技术栈
+
+- **框架**: Flutter 3.x
+- **状态管理**: Provider
+- **音频**: 原生平台 API + Web Audio API
+- **平台通信**: MethodChannel
 
 ## 依赖项
 
-主要使用的第三方包:
+```yaml
+dependencies:
+  flutter: sdk
+  provider: ^6.1.1       # 状态管理
+  cupertino_icons: ^1.0.2
+  web: ^1.0.0            # Web Audio API
+```
 
-- audioplayers: ^5.2.1  # 音频播放
-- provider: ^6.1.1      # 状态管理
-- shared_preferences: ^2.2.2  # 本地存储
+## 开发命令
 
-## 贡献指南
+```bash
+# 静态分析
+flutter analyze
 
-1. Fork 项目
-2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 开启 Pull Request
+# 格式化代码
+dart format lib/
+
+# 生成应用图标
+dart run flutter_launcher_icons
+
+# Android 完整构建 (带版本号递增)
+dart scripts/build_android.dart --increment-version
+```
 
 ## 更新日志
 
-### [1.0.0] - 2024-03-xx
+### [1.0.1] - 2025-01
+- 新增 macOS 原生音频引擎
+- 新增 Web Audio API 支持
+- 新增 TAP TEMPO 功能
+- 新增小节循环 (播放/静音)
+- 新增定时控制 (延迟开始、播放时长)
+- 优化透明窗口支持 (macOS)
+- 优化响应式布局
+
+### [1.0.0] - 2025-01
 - 初始版本发布
 - 基础节拍器功能
 - 支持多种拍号
-- 深色模式支持
+- 深色/浅色主题
 
 ## 许可证
 
-本项目采用 MIT 许可证 - 详见 [LICENSE](LICENSE) 文件
+MIT License - 详见 [LICENSE](LICENSE)
