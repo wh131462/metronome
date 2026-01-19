@@ -84,7 +84,7 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0D0D1A).withValues(alpha: 0.9),
+      backgroundColor: const Color(0xFF0D0D1A).withOpacity(0.9),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -128,7 +128,7 @@ class _SplashScreenState extends State<SplashScreen>
                 Text(
                   'Metronome',
                   style: TextStyle(
-                    color: Colors.white.withValues(alpha: 0.95),
+                    color: Colors.white.withOpacity(0.95),
                     fontSize: 36,
                     fontWeight: FontWeight.w200,
                     letterSpacing: 10,
@@ -158,7 +158,7 @@ class _SplashScreenState extends State<SplashScreen>
     return Text(
       text,
       style: TextStyle(
-        color: Colors.white.withValues(alpha: 0.35),
+        color: Colors.white.withOpacity(0.35),
         fontSize: 11,
         fontWeight: FontWeight.w500,
         letterSpacing: 2,
@@ -173,7 +173,7 @@ class _SplashScreenState extends State<SplashScreen>
         width: 4,
         height: 4,
         decoration: BoxDecoration(
-          color: const Color(0xFFFF4757).withValues(alpha: 0.5),
+          color: const Color(0xFFFF4757).withOpacity(0.5),
           shape: BoxShape.circle,
         ),
       ),
@@ -246,7 +246,7 @@ class _PulseLinePainter extends CustomPainter {
     // 绘制线条发光
     if (drawProgress > 0) {
       final glowPaint = Paint()
-        ..color = glowColor.withValues(alpha: 0.3)
+        ..color = glowColor.withOpacity(0.3)
         ..strokeWidth = 8
         ..style = PaintingStyle.stroke
         ..strokeCap = StrokeCap.round
@@ -282,13 +282,13 @@ class _PulseLinePainter extends CustomPainter {
 
       // 外层大光晕
       final outerGlow = Paint()
-        ..color = glowColor.withValues(alpha: 0.4)
+        ..color = glowColor.withOpacity(0.4)
         ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 20);
       canvas.drawCircle(Offset(headX, headY), 15, outerGlow);
 
       // 内层光晕
       final innerGlow = Paint()
-        ..color = lineColor.withValues(alpha: 0.8)
+        ..color = lineColor.withOpacity(0.8)
         ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 8);
       canvas.drawCircle(Offset(headX, headY), 8, innerGlow);
 

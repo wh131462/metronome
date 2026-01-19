@@ -21,7 +21,7 @@ class MetronomeScreen extends StatelessWidget {
     final topPadding = isDesktop ? 28.0 : 0.0;
 
     return Scaffold(
-      backgroundColor: colors.background.withValues(alpha: 0.85),
+      backgroundColor: colors.background.withOpacity(0.85),
       body: SafeArea(
         top: !isDesktop, // 桌面端不使用 SafeArea 顶部
         child: Column(
@@ -243,7 +243,7 @@ class BeatIndicator extends StatelessWidget {
         gradient: LinearGradient(
           colors: [
             colors.cardBackground,
-            colors.cardBackgroundAlt.withValues(alpha: 0.8),
+            colors.cardBackgroundAlt.withOpacity(0.8),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -264,9 +264,9 @@ class BeatIndicator extends StatelessWidget {
                 ? Container(
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                     decoration: BoxDecoration(
-                      color: colors.accentOrange.withValues(alpha: 0.2),
+                      color: colors.accentOrange.withOpacity(0.2),
                       borderRadius: BorderRadius.circular(14),
-                      border: Border.all(color: colors.accentOrange.withValues(alpha: 0.5)),
+                      border: Border.all(color: colors.accentOrange.withOpacity(0.5)),
                     ),
                     child: Text(
                       '静音中',
@@ -406,7 +406,7 @@ class _BeatDot extends StatelessWidget {
               boxShadow: isActive
                   ? [
                       BoxShadow(
-                        color: color.withValues(alpha: 0.5),
+                        color: color.withOpacity(0.5),
                         blurRadius: 12,
                         spreadRadius: 1,
                       ),
@@ -498,7 +498,7 @@ class BpmControl extends StatelessWidget {
                           vertical: compact ? 2 : 4,
                         ),
                         decoration: BoxDecoration(
-                          color: colors.textPrimary.withValues(alpha: 0.1),
+                          color: colors.textPrimary.withOpacity(0.1),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
@@ -535,7 +535,7 @@ class BpmControl extends StatelessWidget {
                     activeTrackColor: colors.accent,
                     inactiveTrackColor: colors.beatInactive,
                     thumbColor: colors.textPrimary,
-                    overlayColor: colors.accent.withValues(alpha: 0.15),
+                    overlayColor: colors.accent.withOpacity(0.15),
                     trackHeight: 4,
                     thumbShape: const RoundSliderThumbShape(
                       enabledThumbRadius: 8,
@@ -728,7 +728,7 @@ class PlayButton extends StatelessWidget {
           gradient: LinearGradient(
             colors: [
               primaryColor,
-              primaryColor.withValues(alpha: 0.8),
+              primaryColor.withOpacity(0.8),
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -736,7 +736,7 @@ class PlayButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(compact ? 16 : 20),
           boxShadow: [
             BoxShadow(
-              color: primaryColor.withValues(alpha: 0.3),
+              color: primaryColor.withOpacity(0.3),
               blurRadius: compact ? 12 : 16,
               offset: Offset(0, compact ? 4 : 6),
             ),

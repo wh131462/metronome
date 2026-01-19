@@ -15,7 +15,7 @@ class SettingsScreen extends StatelessWidget {
         defaultTargetPlatform == TargetPlatform.linux);
 
     return Scaffold(
-      backgroundColor: colors.background.withValues(alpha: 0.85),
+      backgroundColor: colors.background.withOpacity(0.85),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -493,7 +493,7 @@ class TimingControl extends StatelessWidget {
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withValues(alpha: 0.2),
+                            color: Colors.black.withOpacity(0.2),
                             blurRadius: 2,
                             offset: const Offset(0, 1),
                           ),
@@ -625,7 +625,7 @@ class _TimingRow extends StatelessWidget {
                       child: Container(
                         width: double.infinity,
                         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-                        color: isSelected ? colors.accent.withValues(alpha: 0.1) : Colors.transparent,
+                        color: isSelected ? colors.accent.withOpacity(0.1) : Colors.transparent,
                         child: Row(
                           children: [
                             Expanded(
