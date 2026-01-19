@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Metronome - 专业节拍器</title>
+  <meta name="description" content="一款精美的跨平台节拍器应用，支持 Android、iOS、macOS、Windows 和 Linux">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: #0D0D1A;
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Header */
+    header {
+      padding: 24px 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(13, 13, 26, 0.9);
+      backdrop-filter: blur(10px);
+    }
+
+    header .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 200;
+      letter-spacing: 4px;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+    }
+
+    .nav-links a {
+      color: rgba(255, 255, 255, 0.6);
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #FF4757;
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(255, 71, 87, 0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Animated Wave Line */
+    .wave-container {
+      width: 300px;
+      height: 80px;
+      margin: 0 auto 48px;
+    }
+
+    .wave-line {
+      stroke: #FF4757;
+      stroke-width: 3;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter: drop-shadow(0 0 10px rgba(255, 71, 87, 0.5));
+    }
+
+    .hero h1 {
+      font-size: 64px;
+      font-weight: 200;
+      letter-spacing: 12px;
+      margin-bottom: 24px;
+    }
+
+    .tagline {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+
+    .tagline span {
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 3px;
+    }
+
+    .tagline .dot {
+      width: 5px;
+      height: 5px;
+      background: #FF4757;
+      border-radius: 50%;
+      opacity: 0.6;
+    }
+
+    .download-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 28px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+
+    .btn-primary {
+      background: #FF4757;
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: #FF6B7A;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(255, 71, 87, 0.3);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .version-info {
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 13px;
+    }
+
+    .version-info a {
+      color: #FF4757;
+      text-decoration: none;
+    }
+
+    /* Features Section */
+    .features {
+      padding: 100px 0;
+      background: linear-gradient(180deg, transparent 0%, rgba(255, 71, 87, 0.03) 50%, transparent 100%);
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 36px;
+      font-weight: 300;
+      margin-bottom: 64px;
+      letter-spacing: 4px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 32px;
+    }
+
+    .feature-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 32px;
+      transition: all 0.3s;
+    }
+
+    .feature-card:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(255, 71, 87, 0.3);
+      transform: translateY(-4px);
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(255, 71, 87, 0.1);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .feature-icon svg {
+      width: 24px;
+      height: 24px;
+      color: #FF4757;
+    }
+
+    .feature-card h3 {
+      font-size: 18px;
+      font-weight: 500;
+      margin-bottom: 12px;
+    }
+
+    .feature-card p {
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* Platforms Section */
+    .platforms {
+      padding: 100px 0;
+    }
+
+    .platforms-list {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 48px;
+    }
+
+    .platform-item {
+      text-align: center;
+      opacity: 0.6;
+      transition: opacity 0.3s;
+    }
+
+    .platform-item:hover {
+      opacity: 1;
+    }
+
+    .platform-item svg {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 12px;
+    }
+
+    .platform-item span {
+      display: block;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    /* Footer */
+    footer {
+      padding: 48px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      text-align: center;
+    }
+
+    footer p {
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 13px;
+    }
+
+    footer a {
+      color: #FF4757;
+      text-decoration: none;
+    }
+
+    /* Large Desktop (1440px+) */
+    @media (min-width: 1440px) {
+      .container {
+        max-width: 1400px;
+      }
+
+      .hero h1 {
+        font-size: 80px;
+        letter-spacing: 16px;
+      }
+
+      .wave-container {
+        width: 400px;
+        height: 100px;
+      }
+
+      .tagline span {
+        font-size: 14px;
+        letter-spacing: 4px;
+      }
+
+      .section-title {
+        font-size: 42px;
+      }
+
+      .features-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 40px;
+      }
+
+      .feature-card {
+        padding: 40px;
+      }
+
+      .feature-card h3 {
+        font-size: 20px;
+      }
+
+      .feature-card p {
+        font-size: 15px;
+      }
+
+      .platforms-list {
+        gap: 80px;
+      }
+
+      .platform-item svg {
+        width: 64px;
+        height: 64px;
+      }
+
+      .platform-item span {
+        font-size: 15px;
+      }
+    }
+
+    /* Extra Large Desktop (1920px+) */
+    @media (min-width: 1920px) {
+      .container {
+        max-width: 1600px;
+      }
+
+      .hero h1 {
+        font-size: 96px;
+        letter-spacing: 20px;
+      }
+
+      .wave-container {
+        width: 500px;
+        height: 120px;
+        margin-bottom: 64px;
+      }
+
+      .tagline {
+        gap: 24px;
+        margin-bottom: 64px;
+      }
+
+      .tagline span {
+        font-size: 15px;
+        letter-spacing: 5px;
+      }
+
+      .btn {
+        padding: 18px 36px;
+        font-size: 16px;
+      }
+
+      .section-title {
+        font-size: 48px;
+        margin-bottom: 80px;
+      }
+
+      .features {
+        padding: 140px 0;
+      }
+
+      .features-grid {
+        gap: 48px;
+      }
+
+      .feature-card {
+        padding: 48px;
+        border-radius: 20px;
+      }
+
+      .feature-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 14px;
+      }
+
+      .feature-icon svg {
+        width: 28px;
+        height: 28px;
+      }
+
+      .feature-card h3 {
+        font-size: 22px;
+        margin-bottom: 16px;
+      }
+
+      .feature-card p {
+        font-size: 16px;
+        line-height: 1.7;
+      }
+
+      .platforms {
+        padding: 140px 0;
+      }
+
+      .platforms-list {
+        gap: 100px;
+      }
+
+      .platform-item svg {
+        width: 72px;
+        height: 72px;
+        margin-bottom: 16px;
+      }
+
+      .platform-item span {
+        font-size: 16px;
+      }
+
+      footer {
+        padding: 64px 0;
+      }
+
+      footer p {
+        font-size: 14px;
+      }
+    }
+
+    /* Ultra Wide (2560px+) */
+    @media (min-width: 2560px) {
+      .container {
+        max-width: 2000px;
+      }
+
+      .hero h1 {
+        font-size: 120px;
+      }
+
+      .wave-container {
+        width: 600px;
+        height: 140px;
+      }
+
+      .features-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 64px;
+      }
+    }
+
+    /* Medium Desktop (1024px - 1439px) */
+    @media (min-width: 1024px) and (max-width: 1439px) {
+      .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* Tablet (768px - 1023px) */
+    @media (min-width: 768px) and (max-width: 1023px) {
+      .hero h1 {
+        font-size: 52px;
+        letter-spacing: 8px;
+      }
+
+      .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+      }
+
+      .feature-card {
+        padding: 28px;
+      }
+    }
+
+    /* Mobile (< 768px) */
+    @media (max-width: 767px) {
+      .hero h1 {
+        font-size: 36px;
+        letter-spacing: 4px;
+      }
+
+      .wave-container {
+        width: 260px;
+        height: 70px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .tagline {
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .tagline span {
+        font-size: 11px;
+      }
+
+      .download-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .btn {
+        width: 100%;
+        max-width: 280px;
+        justify-content: center;
+      }
+
+      .section-title {
+        font-size: 28px;
+        margin-bottom: 48px;
+      }
+
+      .features {
+        padding: 80px 0;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .feature-card {
+        padding: 24px;
+      }
+
+      .platforms {
+        padding: 80px 0;
+      }
+
+      .platforms-list {
+        gap: 32px;
+      }
+
+      .platform-item svg {
+        width: 40px;
+        height: 40px;
+      }
+    }
+
+    /* Small Mobile (< 375px) */
+    @media (max-width: 374px) {
+      .hero h1 {
+        font-size: 28px;
+        letter-spacing: 2px;
+      }
+
+      .wave-container {
+        width: 220px;
+        height: 60px;
+      }
+
+      .btn {
+        padding: 12px 20px;
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <a href="#" class="logo">METRONOME</a>
+      <nav class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#platforms">Platforms</a>
+        <a href="https://github.com/wh131462/metronome" target="_blank">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-content">
+      <div class="wave-container">
+        <svg viewBox="0 0 300 80" preserveAspectRatio="xMidYMid meet">
+          <path class="wave-line" d="M 20,40 L 75,40 L 95,15 L 115,65 L 135,15 L 155,65 L 175,15 L 195,65 L 215,40 L 280,40" />
+        </svg>
+      </div>
+      <h1>Metronome</h1>
+      <div class="tagline">
+        <span>TEMPO</span>
+        <div class="dot"></div>
+        <span>RHYTHM</span>
+        <div class="dot"></div>
+        <span>FLOW</span>
+      </div>
+      <div class="download-buttons">
+        <a href="app/" class="btn btn-primary">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+          在线体验
+        </a>
+        <a href="https://github.com/wh131462/metronome/releases/latest/download/metronome.apk" class="btn btn-secondary">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.523 2H6.477C5.768 2 5.2 2.568 5.2 3.277v17.446c0 .709.568 1.277 1.277 1.277h11.046c.709 0 1.277-.568 1.277-1.277V3.277C18.8 2.568 18.232 2 17.523 2zM12 20.385c-.69 0-1.25-.56-1.25-1.25s.56-1.25 1.25-1.25 1.25.56 1.25 1.25-.56 1.25-1.25 1.25zM17 17H7V4h10v13z"/></svg>
+          Android
+        </a>
+        <a href="https://github.com/wh131462/metronome/releases/latest/download/metronome.dmg" class="btn btn-secondary">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+          macOS
+        </a>
+        <a href="https://github.com/wh131462/metronome/releases/latest/download/metronome.msix" class="btn btn-secondary">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 12V6.75l6-1.32v6.48L3 12zm17-9v8.75l-10 .15V5.21L20 3zM3 13l6 .09v6.81l-6-1.15V13zm17 .25V22l-10-1.91V13.1l10 .15z"/></svg>
+          Windows
+        </a>
+        <a href="https://github.com/wh131462/metronome/releases/latest" class="btn btn-secondary">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+          All Releases
+        </a>
+      </div>
+      <p class="version-info">
+        Latest release: <a id="latest-version" href="https://github.com/wh131462/metronome/releases/latest">Loading...</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="features" id="features">
+    <div class="container">
+      <h2 class="section-title">FEATURES</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <h3>BPM 30-250</h3>
+          <p>精确的节拍速度控制，满足从慢练到快速演奏的各种需求</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+          </div>
+          <h3>12 种拍号</h3>
+          <p>支持常见的 2/4、3/4、4/4、6/8 等多种拍号设置</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+          </div>
+          <h3>高精度音频</h3>
+          <p>原生音频引擎，确保节拍声音精准无延迟</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <h3>跨平台支持</h3>
+          <p>支持 Android、iOS、macOS、Windows、Linux 全平台</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          </div>
+          <h3>主题切换</h3>
+          <p>支持深色和浅色主题，适应不同使用场景</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          </div>
+          <h3>后台播放</h3>
+          <p>支持后台运行，通知栏快捷控制播放状态</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="platforms" id="platforms">
+    <div class="container">
+      <h2 class="section-title">PLATFORMS</h2>
+      <div class="platforms-list">
+        <div class="platform-item">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.523 2H6.477C5.768 2 5.2 2.568 5.2 3.277v17.446c0 .709.568 1.277 1.277 1.277h11.046c.709 0 1.277-.568 1.277-1.277V3.277C18.8 2.568 18.232 2 17.523 2zM12 20.385c-.69 0-1.25-.56-1.25-1.25s.56-1.25 1.25-1.25 1.25.56 1.25 1.25-.56 1.25-1.25 1.25zM17 17H7V4h10v13z"/></svg>
+          <span>Android</span>
+        </div>
+        <div class="platform-item">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+          <span>iOS</span>
+        </div>
+        <div class="platform-item">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+          <span>macOS</span>
+        </div>
+        <div class="platform-item">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 12V6.75l6-1.32v6.48L3 12zm17-9v8.75l-10 .15V5.21L20 3zM3 13l6 .09v6.81l-6-1.15V13zm17 .25V22l-10-1.91V13.1l10 .15z"/></svg>
+          <span>Windows</span>
+        </div>
+        <div class="platform-item">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.504 0c-.155 0-.311.001-.465.003-.658.014-1.271.102-1.838.243-.566.14-1.109.354-1.615.633a5.986 5.986 0 00-1.371 1.065 5.986 5.986 0 00-1.065 1.371c-.279.506-.493 1.049-.633 1.615-.141.567-.229 1.18-.243 1.838-.002.154-.003.31-.003.465v12.534c0 .155.001.311.003.465.014.658.102 1.271.243 1.838.14.566.354 1.109.633 1.615a5.986 5.986 0 001.065 1.371 5.986 5.986 0 001.371 1.065c.506.279 1.049.493 1.615.633.567.141 1.18.229 1.838.243.154.002.31.003.465.003h.992c.155 0 .311-.001.465-.003.658-.014 1.271-.102 1.838-.243.566-.14 1.109-.354 1.615-.633a5.986 5.986 0 001.371-1.065 5.986 5.986 0 001.065-1.371c.279-.506.493-1.049.633-1.615.141-.567.229-1.18.243-1.838.002-.154.003-.31.003-.465V5.466c0-.155-.001-.311-.003-.465-.014-.658-.102-1.271-.243-1.838a5.13 5.13 0 00-.633-1.615 5.986 5.986 0 00-1.065-1.371A5.986 5.986 0 0016.799.879a5.13 5.13 0 00-1.615-.633C14.617.105 14.004.017 13.346.003 13.192.001 13.036 0 12.881 0h-.377zm2.108 5.553a.713.713 0 01.503.21.713.713 0 01.21.503v11.468a.713.713 0 01-.21.503.713.713 0 01-.503.21H9.388a.713.713 0 01-.503-.21.713.713 0 01-.21-.503V6.266a.713.713 0 01.21-.503.713.713 0 01.503-.21h5.224z"/></svg>
+          <span>Linux</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>
+        Open Source on <a href="https://github.com/wh131462/metronome" target="_blank">GitHub</a>
+        &nbsp;&bull;&nbsp;
+        Made with Flutter
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // Fetch latest release version
+    fetch('https://api.github.com/repos/wh131462/metronome/releases/latest')
+      .then(response => response.json())
+      .then(data => {
+        if (data.tag_name) {
+          document.getElementById('latest-version').textContent = data.tag_name;
+        }
+      })
+      .catch(() => {
+        document.getElementById('latest-version').textContent = 'v1.0.0';
+      });
+  </script>
+</body>
+</html>
