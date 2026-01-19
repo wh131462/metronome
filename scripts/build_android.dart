@@ -219,8 +219,3 @@ Future<void> _openDirectory(String path) async {
     await Process.run('xdg-open', [path]);
   }
 }
-
-// 添加一个辅助方法来验证目录
-bool _isProjectRoot(String dir) {
-  return File(path.join(dir, 'pubspec.yaml')).existsSync();
-} 
