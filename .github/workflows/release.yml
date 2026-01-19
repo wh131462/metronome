@@ -69,13 +69,13 @@ jobs:
         run: flutter build apk --release
 
       - name: Rename APK
-        run: mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/metronome-${{ needs.check-version.outputs.version }}-android.apk
+        run: mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/metronome.apk
 
       - name: Upload Android artifact
         uses: actions/upload-artifact@v4
         with:
           name: android-release
-          path: build/app/outputs/flutter-apk/metronome-${{ needs.check-version.outputs.version }}-android.apk
+          path: build/app/outputs/flutter-apk/metronome.apk
 
   # Build macOS
   build-macos:
@@ -102,13 +102,13 @@ jobs:
           cd build/macos/Build/Products/Release
           mkdir -p dmg_temp
           cp -R metronome.app dmg_temp/
-          hdiutil create -volname "Metronome" -srcfolder dmg_temp -ov -format UDZO metronome-${{ needs.check-version.outputs.version }}-macos.dmg
+          hdiutil create -volname "Metronome" -srcfolder dmg_temp -ov -format UDZO metronome.dmg
 
       - name: Upload macOS artifact
         uses: actions/upload-artifact@v4
         with:
           name: macos-release
-          path: build/macos/Build/Products/Release/metronome-${{ needs.check-version.outputs.version }}-macos.dmg
+          path: build/macos/Build/Products/Release/metronome.dmg
 
   # Build Windows
   build-windows:
@@ -133,13 +133,13 @@ jobs:
       - name: Create ZIP
         run: |
           cd build/windows/x64/runner/Release
-          Compress-Archive -Path * -DestinationPath metronome-${{ needs.check-version.outputs.version }}-windows.zip
+          Compress-Archive -Path * -DestinationPath metronome-windows.zip
 
       - name: Upload Windows artifact
         uses: actions/upload-artifact@v4
         with:
           name: windows-release
-          path: build/windows/x64/runner/Release/metronome-${{ needs.check-version.outputs.version }}-windows.zip
+          path: build/windows/x64/runner/Release/metronome-windows.zip
 
   # Build Linux
   build-linux:
@@ -169,13 +169,13 @@ jobs:
       - name: Create tarball
         run: |
           cd build/linux/x64/release/bundle
-          tar -czvf metronome-${{ needs.check-version.outputs.version }}-linux.tar.gz *
+          tar -czvf metronome-linux.tar.gz *
 
       - name: Upload Linux artifact
         uses: actions/upload-artifact@v4
         with:
           name: linux-release
-          path: build/linux/x64/release/bundle/metronome-${{ needs.check-version.outputs.version }}-linux.tar.gz
+          path: build/linux/x64/release/bundle/metronome-linux.tar.gz
 
   # Build Web
   build-web:
