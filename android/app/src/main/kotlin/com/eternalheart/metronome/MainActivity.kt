@@ -1,4 +1,4 @@
-package com.example.metronome
+package com.eternalheart.metronome
 
 import android.Manifest
 import android.content.Intent
@@ -11,7 +11,7 @@ import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 
 class MainActivity: FlutterActivity() {
-    private val CHANNEL = "com.example.metronome/audio"
+    private val CHANNEL = "com.eternalheart.metronome/audio"
     private var audioEngine: MetronomeAudioEngine? = null
     private var methodChannel: MethodChannel? = null
 

@@ -1,4 +1,4 @@
-package com.example.metronome
+package com.eternalheart.metronome
 
 import android.app.*
 import android.content.Intent
@@ -21,12 +21,12 @@ class MetronomeService : Service() {
         const val CHANNEL_ID = "metronome_playback_channel"
         const val NOTIFICATION_ID = 1001
 
-        const val ACTION_PLAY = "com.example.metronome.PLAY"
-        const val ACTION_PAUSE = "com.example.metronome.PAUSE"
-        const val ACTION_STOP = "com.example.metronome.STOP"
-        const val ACTION_PRESET_1 = "com.example.metronome.PRESET_1"  // 流行 4/4
-        const val ACTION_PRESET_2 = "com.example.metronome.PRESET_2"  // 华尔兹 3/4
-        const val ACTION_PRESET_3 = "com.example.metronome.PRESET_3"  // 进行曲 2/4
+        const val ACTION_PLAY = "com.eternalheart.metronome.PLAY"
+        const val ACTION_PAUSE = "com.eternalheart.metronome.PAUSE"
+        const val ACTION_STOP = "com.eternalheart.metronome.STOP"
+        const val ACTION_PRESET_1 = "com.eternalheart.metronome.PRESET_1"  // 流行 4/4
+        const val ACTION_PRESET_2 = "com.eternalheart.metronome.PRESET_2"  // 华尔兹 3/4
+        const val ACTION_PRESET_3 = "com.eternalheart.metronome.PRESET_3"  // 进行曲 2/4
 
         var isRunning = false
         var currentBpm = 120

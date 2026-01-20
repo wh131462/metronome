@@ -45,3 +45,9 @@ app.*.map.json
 /android/app/release
 
 /release
+
+# Signing files (NEVER commit these!)
+android/key.properties
+android/keystore/
+*.jks
+*.keystore

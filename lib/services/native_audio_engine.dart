@@ -7,7 +7,7 @@ import 'audio_engine_base.dart';
 /// iOS: AVAudioEngine
 /// macOS: AVAudioEngine
 class NativeAudioEngine implements AudioEngineBase {
-  static const MethodChannel _channel = MethodChannel('com.example.metronome/audio');
+  static const MethodChannel _channel = MethodChannel('com.eternalheart.metronome/audio');
 
   static final NativeAudioEngine _instance = NativeAudioEngine._internal();
   factory NativeAudioEngine() => _instance;

@@ -1,4 +1,4 @@
-package com.example.metronome
+package com.eternalheart.metronome
 
 import android.content.Context
 import android.media.AudioAttributes

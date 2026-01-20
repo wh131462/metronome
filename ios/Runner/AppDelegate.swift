@@ -5,7 +5,7 @@ import AVFoundation
 
 @main
 @objc class AppDelegate: FlutterAppDelegate {
-    private let channelName = "com.example.metronome/audio"
+    private let channelName = "com.eternalheart.metronome/audio"
     private var audioEngine: MetronomeAudioEngine?
     private var channel: FlutterMethodChannel?
 

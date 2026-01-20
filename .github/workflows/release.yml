@@ -42,7 +42,7 @@ jobs:
             echo "version=" >> $GITHUB_OUTPUT
           fi
 
-  # Build Android APK
+  # Build Android APK (Signed)
   build-android:
     needs: check-version
     if: needs.check-version.outputs.is_release == 'true'
@@ -65,8 +65,36 @@ jobs:
       - name: Get dependencies
         run: flutter pub get
 
+      # 配置 Android 签名
+      - name: Setup Android Signing
+        env:
+          KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          KEY_PROPERTIES: ${{ secrets.ANDROID_KEY_PROPERTIES }}
+        run: |
+          # 创建 keystore 目录
+          mkdir -p android/keystore
+
+          # 解码 keystore 文件
+          echo "$KEYSTORE_BASE64" | base64 --decode > android/keystore/metronome-release.jks
+
+          # 创建 key.properties
+          echo "$KEY_PROPERTIES" > android/key.properties
+
+          # 验证文件存在
+          echo "Checking signing files..."
+          ls -la android/keystore/
+          test -f android/key.properties && echo "key.properties exists"
+
       - name: Build APK
         run: flutter build apk --release
+
+      # 验证 APK 签名
+      - name: Verify APK Signature
+        run: |
+          APK_PATH="build/app/outputs/flutter-apk/app-release.apk"
+          echo "Verifying APK signature..."
+          $ANDROID_SDK_ROOT/build-tools/34.0.0/apksigner verify --verbose "$APK_PATH"
+          echo "APK signature verified successfully!"
 
       - name: Rename APK
         run: mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/metronome.apk
