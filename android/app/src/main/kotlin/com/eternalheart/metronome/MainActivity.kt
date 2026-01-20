@@ -124,28 +124,6 @@ class MainActivity: FlutterActivity() {
             MetronomeService.isPlaying = false
             methodChannel?.invokeMethod("onPlayStateChanged", mapOf("isPlaying" to false))
         }
-
-        // 预设切换回调
-        MetronomeService.onPresetChange = { bpm, beats, presetIndex ->
-            MetronomeService.currentBpm = bpm
-            MetronomeService.currentBeats = beats
-
-            if (MetronomeService.isPlaying) {
-                audioEngine?.stop()
-                audioEngine?.start(bpm, beats, 1, 0)
-            }
-
-            audioEngine?.setBpm(bpm)
-            audioEngine?.setBeatsPerBar(beats)
-
-            methodChannel?.invokeMethod("onPresetChanged", mapOf(
-                "bpm" to bpm,
-                "beatsPerBar" to beats,
-                "presetIndex" to presetIndex
-            ))
-
-            updateServiceNotification()
-        }
     }
 
     private fun startMetronomeService() {
