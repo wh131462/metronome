@@ -16,3 +16,8 @@
 
 # AndroidX Media
 -keep class androidx.media.** { *; }
+
+# Google Play Core (for deferred components)
+-dontwarn com.google.android.play.core.splitcompat.SplitCompatApplication
+-dontwarn com.google.android.play.core.splitinstall.**
+-dontwarn com.google.android.play.core.tasks.**
